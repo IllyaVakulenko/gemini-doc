@@ -13,14 +13,27 @@ prompt_generator = PromptGenerator()
 
 model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 
-while True:
+
+def main():
     print_separator()
 
-    prompt_generator.run()
+    # prompt_generator.write_info()
+    prompt_generator.init_info(
+        "Київський Політехнічний Університет",
+        "4",
+        "Інженерія Програмного Забезпечення",
+        "реферат",
+        "Архітектура інтернет аукціонів"
+    )
 
+    print(prompt_generator.document_prompt)
 
     # request = input("User: ")
-    # response = model.generate_content(request)
+    response = model.generate_content(prompt_generator.document_prompt)
 
-    # print_separator()
-    # print(f"Gemini: {response.text}")
+    print_separator()
+    print(response.text)
+
+
+if __name__ == "__main__":
+    main()
