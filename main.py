@@ -17,7 +17,6 @@ model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 def main():
     print_separator()
 
-    # prompt_generator.write_info()
     prompt_generator.init_info(
         "Київський Політехнічний Університет",
         "4",
@@ -28,11 +27,13 @@ def main():
 
     print(prompt_generator.document_prompt)
 
-    # request = input("User: ")
     response = model.generate_content(prompt_generator.document_prompt)
 
     print_separator()
-    print(response.text)
+    print(prompt_generator.response)
+
+    write_usage(os.getenv("USAGE_FILE"), f"## Prompt:\n> {prompt_generator.document_prompt}\n\n"
+                                         f"{prompt_generator.response}")
 
 
 if __name__ == "__main__":
