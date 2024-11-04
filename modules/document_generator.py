@@ -20,16 +20,22 @@ class PromptGenerator:
 
     def get_document_info(self):
         self.document_info = {
-            "document_type": input(f"Тип документу{self.add_hint_text(' наприклад, \"доповідь\", \"есе\", \"дослідницька робота\"')}: "),
-            "topic": input(f"Тема документу{self.add_hint_text(' наприклад, \"Домашня робота як фактор самовиховання\"')}: ")
+            "document_type": input(
+                f"Тип документу{self.add_hint_text(' наприклад, \"доповідь\", \"есе\", \"дослідницька робота\"')}: "),
+            "topic": input(
+                f"Тема документу{self.add_hint_text(' наприклад, \"Домашня робота як фактор самовиховання\"')}: ")
         }
 
     def generate_block_info(self):
-        self.block = input(f"Назва блоку для розкриття{self.add_hint_text(' (наприклад, \"Поняття самовиховання\")')}: ")
+        self.block = input(
+            f"Назва блоку для розкриття{self.add_hint_text(' (наприклад, \"Поняття самовиховання\")')}: ")
 
     def generate_document_prompt(self):
-        intro_template = "Ти студент {{user_info.education}}, курс {{user_info.course}}, спеціальність {{user_info.specialization}}."
-        prompt_template = "Напиши структуру {{document_type}} на тему: \"{{topic}}\".\nСтруктура має бути строго за типом: Вступ, Розділи, Висновок. НІЧОГО ОКРІМ СТРУКТУРИ НЕ ПИШИ (НІЯКИХ ПОРАД, РЕКОМЕНДАЦІЙ, ПРИМІТОК, ТІЛЬКИ СТРУКТУРА)"
+        intro_template = ("Ти студент {{user_info.education}}, курс {{user_info.course}}, спеціальність {{"
+                          "user_info.specialization}}.")
+        prompt_template = ("Напиши структуру {{document_type}} на тему: \"{{topic}}\".\nСтруктура має бути строго за "
+                           "типом: Вступ, Розділи, Висновок. НІЧОГО ОКРІМ СТРУКТУРИ НЕ ПИШИ (НІЯКИХ ПОРАД, "
+                           "РЕКОМЕНДАЦІЙ, ПРИМІТОК, ТІЛЬКИ СТРУКТУРА)")
 
         intro = intro_template.replace("{{user_info.education}}", self.user_info["education"]) \
             .replace("{{user_info.course}}", self.user_info["course"]) \
@@ -43,7 +49,6 @@ class PromptGenerator:
     def generate_block_prompt(self):
         prompt_template = "Розпиши {{block}}"
 
-        # Заповнення шаблону
         return prompt_template.replace("{{block}}", self.block)
 
     def enable_hint(self):
@@ -57,8 +62,6 @@ class PromptGenerator:
         self.get_document_info()
 
         self.document_prompt = self.generate_document_prompt()
-
-        # print("\nЗгенерований запит для структури документа:")
 
     def get_info(self):
         return self.document_prompt
